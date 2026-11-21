@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Knitting Machine Downtime Monitoring System</title>
+<script>try{document.documentElement.dataset.theme=localStorage.artex_theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}catch(e){}</script>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="top">
+ <div class="brand"><span class="logo">⚙</span><div><h1>Knitting Machine Downtime Monitoring System</h1><p>AR TEX COMPOSITE LTD</p></div></div>
+ <nav id="tabs">
+  <button data-t="floor" class="on"><i>🏭</i>Floor</button>
+  <button data-t="log"><i>➕</i>Log</button>
+  <button data-t="hist"><i>📋</i>History</button>
+  <button data-t="rep"><i>📊</i>Reports</button>
+ </nav>
+ <div class="tools"><span id="clk"></span><span id="dot" class="dot" title="Saved on this device"></span><button id="theme" class="ib" title="Light / Dark">🌓</button></div>
+</header>
+<main>
+<section id="t-floor" class="tab on">
+ <div class="kpis">
+  <div class="k g"><b id="kR">0</b><span>Running now</span></div>
+  <div class="k r"><b id="kX">0</b><span>Down now</span></div>
+  <div class="k o"><b id="kE">0</b><span>Events today</span></div>
+  <div class="k"><b id="kT">0m</b><span>Downtime today</span></div>
+ </div>
+ <div class="bar"><div id="fc" class="chips"></div><input id="fq" class="search" type="search" inputmode="numeric" placeholder="🔍 Machine no"></div>
+ <div id="grid" class="grid first"></div>
+ <p class="hint">👆 Tap a machine. When it stops, press <b>Start timer</b>; when it runs again, press <b>Save</b>. Red tiles are down right now.</p>
+</section>
+
+<section id="t-log" class="tab"><div class="card narrow">
+ <h2 id="ltitle">Log a past downtime</h2>
+ <p class="hint">For something that already happened. If a machine is down right now, use the <b>Floor</b> tab and start a timer.</p>
+ <div id="lerr" class="err hide"></div>
+ <label class="lb">1 · Machine number</label>
+ <input id="lm" type="number" min="1" max="124" inputmode="numeric" placeholder="e.g. 25"><div id="lchip" class="mchip"></div>
+ <label class="lb">2 · Date and time</label>
+ <input id="ld" type="date">
+ <div class="two"><div><small class="sl">Start</small><input id="ls" type="time"></div><div><small class="sl">End</small><input id="le" type="time"></div></div>
+ <div class="qb" id="qb"><button type="button" data-q="s">Start: now</button><button type="button" data-q="e">End: now</button><button type="button" data-q="15">+15m</button><button type="button" data-q="30">+30m</button><button type="button" data-q="60">+1h</button></div>
+ <div id="lpv" class="pv"></div>
+ <label class="lb">3 · Reason</label>
+ <div id="lrg" class="rg"></div><div id="lor" class="hide"><input id="lo" maxlength="80" placeholder="Type the reason"></div>
+ <button class="btn" id="lsave">Save downtime</button>
+ <button class="btn ghost hide" id="lcancel">Cancel edit</button>
+</div></section>
+
+<section id="t-hist" class="tab"><div class="card">
+ <div class="filters"><input id="hq" type="search" placeholder="🔍 Search"><select id="hT"><option value="">All types</option></select><input id="hD" type="date"><select id="hRs"><option value="">All reasons</option></select><button class="chip" id="hclr">Clear</button><button class="chip" id="ex1">⬇ CSV</button></div>
+ <p id="hsum" class="hint"></p>
+ <p class="hint">Records are saved in this browser. <button class="chip" id="bk">⬇ Backup</button> <button class="chip" id="rs">⬆ Restore</button><input type="file" id="rf" accept=".json" class="hide"></p>
+ <div class="tw"><table><thead><tr><th data-k="date">Date ↕</th><th data-k="no">Machine ↕</th><th>Type</th><th>Shift</th><th data-k="start">Start ↕</th><th>End</th><th data-k="dur">Duration ↕</th><th>Reason</th><th></th></tr></thead><tbody id="hb"></tbody></table></div>
+</div></section>
+
+<section id="t-rep" class="tab">
+ <div class="card"><h2>Shift summary · today</h2><div class="shifts" id="sh"></div><p class="hint">Shift A 8:00 AM – 8:00 PM · Shift B 8:00 PM – 8:00 AM (by start time)</p></div>
+ <div class="card"><h2>Last 7 days</h2><div class="an">
+  <div><h3>Daily downtime</h3><div id="anDays" class="days"></div></div>
+  <div><h3>Top reasons</h3><div id="anRs"></div></div>
+  <div><h3>Most down machines</h3><div id="anMc"></div></div></div></div>
+ <div class="card"><div class="rowh"><h2>Machine-wise downtime</h2><select id="rp"><option value="t">Today</option><option value="w" selected>Last 7 days</option><option value="a">All time</option></select><button class="chip" id="ex2">⬇ CSV</button></div>
+  <div class="tw"><table><thead><tr><th>Machine</th><th>Type</th><th>Events</th><th>Total downtime</th><th>Top reason</th></tr></thead><tbody id="mw"></tbody></table></div></div>
+</section>
+</main>
+
+<div id="scrim"></div>
+<aside id="drawer"><div id="dr"></div></aside>
+<div id="toast" class="toast hide"></div>
+<script src="app.js"></script>
+</body></html>
